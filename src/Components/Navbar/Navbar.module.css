@@ -1,0 +1,11 @@
+.nav {
+    grid-area: n;
+    background-color: blueviolet;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.nav a{
+    color:white;
+    text-decoration: none;
+}
