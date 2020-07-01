@@ -1,17 +1,38 @@
 import React from "react";
-import s from "./Header.module.css";
-import {NavLink} from "react-router-dom";
+import Header from "./Header";
+import * as axios from "axios";
+import {connect} from "react-redux";
+import {setAuthData} from "../../Redux/authReducer";
 
-const Header = () => {
-    return (
-        <header className={s.header}>
-            <img
-                src="https://cdn.shopify.com/shopifycloud/hatchful-web/assets/6fcc76cfd1c59f44d43a485167fb3139.png"/>
-                <div className={s.login}>
-                    <NavLink to={'/login'}>Login</NavLink>
-                </div>
-        </header>
-    )
+class HeaderContainer extends React.Component {
+    componentDidMount() {
+        axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
+            withCredentials: true /*Разрешает использовать cookie файлы*/
+        })
+            .then(response => {
+                if(response.data.resultCode === 0){
+
+                    let {id,email,login} = response.data.data;
+                    this.props.setAuthData(id,email,login);
+                }
+
+            });
+    }
+
+    render() {
+        return <Header {...this.props}/>
+    }
 }
 
-export default Header;
+let mapStateToProps = (state)=>{
+    return{
+        isAuth:state.auth.isAuth,
+        login:state.auth.login,
+        email:state.auth.email,
+        userId:state.auth.userId
+    }
+}
+
+
+export default connect(mapStateToProps,{setAuthData})(HeaderContainer) ;
+

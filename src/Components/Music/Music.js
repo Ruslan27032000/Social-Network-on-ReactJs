@@ -1,10 +1,10 @@
 import React from "react";
-import s from "./Dialogs.module.css";
+import s from "./Music.module.css";
 
 const Music = (props) =>{
     return(
         <div className={s.main}>
-            Dialogs
+            Music
         </div>
     )
 };

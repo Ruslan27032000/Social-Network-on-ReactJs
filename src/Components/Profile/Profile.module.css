@@ -1,16 +1,10 @@
-
-.profile {
+.profile{
     margin-top: 20px;
-    margin-left: 20px;
-    grid-area: c;
-    background-color: aqua;
+    margin-left:20px;
+    border: 1px solid black;
+    background-color: beige;
 }
 
-.img {
-    width: 100%;
-    height: 100px;
-}
-
-.item {
-    padding: 20px 0px 0px 20px;
+.user{
+    margin:20px;
 }

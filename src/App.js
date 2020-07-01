@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Navbar from "./Components/Navbar/Navbar";
+import {BrowserRouter, Route} from "react-router-dom";
+import Settings from "./Components/Settings/Settings";
+import News from "./Components/News/News";
+import Music from "./Components/Music/Music";
+import DialogsContainer from "./Components/Dialogs/DialogsContainer";
+import UsersContainer from "./Components/Users/UsersContainer";
+import ProfileContainer from "./Components/Profile/ProfileContainer";
+import HeaderContainer from "./Components/Header/HeaderContainer";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => { /*props - объект*/
+    return (
+        <BrowserRouter>
+            <div className='app-wrapper'>
+                <HeaderContainer/>
+                <Navbar/>
+                <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
+                <Route path='/dialogs' render={() => <DialogsContainer/>}/>
+                <Route path='/news' render={() => <News/>}/>
+                <Route path='/music' render={() => <Music/>}/>
+                <Route path='/users' render={() => <UsersContainer/>}/>
+                <Route exact path='/settings' render={() => <Settings/>}/>
+            </div>
+        </BrowserRouter>
+    );
 }
 
 export default App;

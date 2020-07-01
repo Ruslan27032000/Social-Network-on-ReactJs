@@ -1,0 +1,23 @@
+.item {
+    border: 1px solid black;
+    margin:20px;
+    padding: 20px;
+    background-color: white;
+}
+.item img{
+    height:60px;
+    width: 60px;
+    border-radius: 100%;
+    margin:10px;
+
+}
+.item a{
+    display: block;
+    margin-left: 18px;
+    text-decoration: none;
+    color:black;
+}
+
+.item p{
+    text-align: center;
+}

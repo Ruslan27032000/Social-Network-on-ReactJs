@@ -1,50 +1,91 @@
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';
-const ADD_MESSAGE = 'ADD-MESSAGE';
+const FOLLOW = 'FOLLOW';
+const UNFOLLOW = 'UNFOLLOW';
+const SET_USERS = 'SET_USERS';
+const CURRENT_PAGE = 'CURRENT_PAGE';
+const GET_TOTAL_COUNT = 'GET_TOTAL_COUNT';
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 let initialState = {
-    messageText: "",
-    names: [
-        {id: 1, name: "Ruslan"},
-        {id: 2, name: "Adal"},
-        {id: 3, name: "Maxim"},
-        {id: 4, name: "Almat"},
-        {id: 5, name: "Ilyas"},
-    ],
-    messages: [
-        {id: 1, message: "Hi!"},
-        {id: 2, message: "How is your deals?"},
-        {id: 1, message: "Yo!"},
-        {id: 1, message: "Yo!"},
-        {id: 1, message: "Yo!"}
-    ]
+    users: [],
+    totalUsersCount:0,
+    pageSize:5,
+    currentPage:1,
+    isFetching:false
 }
 
-export const dialogsReducer = (state = initialState, action) => { /*в state получаем messageData*/
+export const usersReducer = (state = initialState, action) => { /*в state получаем messageData*/
     switch (action.type) {
-        case UPDATE_NEW_MESSAGE_TEXT:
+        case FOLLOW:
             return {
                 ...state,
-                messageText: action.newText
+                users: state.users.map(u => {
+                    if (u.id === action.userId) {
+                        return {
+                            ...u,
+                            following: true
+                        }
+                    }
+                    return u;
+                })
             }
-        case ADD_MESSAGE:
+        case UNFOLLOW:
             return {
                 ...state,
-                messages: [...state.messages, {id: 5, message: state.messageText}],
-                messageText: ""
+                users: state.users.map(u => {
+                    if (u.id === action.userId) {
+                        return {
+                            ...u,
+                            following: false
+                        }
+                    }
+                    return u;
+                })
+            }
+        case SET_USERS:
+            return {
+                ...state,
+                users:action.users
+            }
+        case CURRENT_PAGE:
+            return{
+                ...state,
+                currentPage: action.page
+            }
+        case GET_TOTAL_COUNT:
+            return {
+                ...state,
+                totalUsersCount:action.totalCount
+            }
+        case TOGGLE_IS_FETCHING:
+            return{
+                ...state,
+                isFetching: action.isFetching
             }
         default:
             return state;
     }
 }
-export const addMessageActionCreator = () => {
-    return {
-        type: ADD_MESSAGE
-    }
+
+export const follow = (userId) => {
+    return {type: FOLLOW, userId}
+};
+
+export const unFollow = (userId) => {
+    return {type: UNFOLLOW, userId}
 }
 
-export const updateNewMessageActionCreator = (text) => {
-    return {
-        type: UPDATE_NEW_MESSAGE_TEXT,
-        newText: text
-    }
+export const setUsers = (users) => {
+    return {type: SET_USERS, users}
+}
+
+export const setCurrentPage =(page)=>{
+    return{type:CURRENT_PAGE,page}
+}
+
+export const getTotalCount = (totalCount)=>{
+    return{type:GET_TOTAL_COUNT,totalCount}
+}
+
+export const toggleIsFetching = (isFetching)=>{
+    return{type:TOGGLE_IS_FETCHING,isFetching}
 }

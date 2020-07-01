@@ -3,9 +3,19 @@
     background-color: blueviolet;
     margin-top: 20px;
     text-align: center;
+    padding-top: 10px;
+    padding-bottom: 30px;
 }
-
-.nav a{
+.item{
+    margin-top: 20px;
+}
+.item a{
+    margin-top: 10px;
     color:white;
     text-decoration: none;
+    outline: none;
+}
+
+.item a.activeLink{
+    color:black;
 }

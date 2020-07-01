@@ -1,0 +1,36 @@
+.dialogs {
+    margin-top: 20px;
+    margin-left: 20px;
+    border: 1px solid black;
+    background-color: bisque;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    grid-template-rows:5fr 2fr 1fr;
+    grid-template-areas:
+            "d m m "
+            "d s s";
+}
+
+.dialogsItems {
+    padding: 10px;
+    grid-area: d;
+}
+
+.messages {
+    overflow-y: scroll;
+    height: 330px;
+    border: 1px solid black;
+    margin: 20px;
+    padding: 10px;
+    grid-area: m;
+}
+
+.send {
+    grid-area: s;
+    margin-top: 40px;
+    margin-left: 50px;
+}
+
+.send textarea {
+    width: 90%;
+}

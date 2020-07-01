@@ -1,20 +1,26 @@
 import React from "react";
-import s from "./MyPosts.module.css";
-import Posts from "./Posts/Posts";
+import s from "./Profile.module.css"
+import MyPostsContainer from "./MyPosts/MyPostsContainer";
+import Preloader from "../Preloader/Preloader";
 
-const MyPosts = () => {
+const Profile = (props) => {
+    if(!props.profile){
+        return <Preloader />
+    }
     return (
         <div className={s.profile}>
             <div className={s.img}><img
-                src="https://www.wisemoneyisrael.com/wp-content/uploads/2015/05/Industry-1000x100.jpg"
+                src={props.profile.photos.large}
                 alt=""/>
             </div>
-            <div className="">
-                ava + descr
+            <div className={s.user}>
+                {props.profile.fullName}
+                <br/>
+                {props.profile.aboutMe}
             </div>
-            <Posts />
+            <MyPostsContainer />
         </div>
     );
 }
 
-export default MyPosts;
+export default Profile;

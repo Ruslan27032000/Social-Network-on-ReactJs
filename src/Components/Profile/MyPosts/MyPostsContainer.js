@@ -1,40 +1,54 @@
 import React from "react";
-import s from "./MyPosts.module.css";
-import Posts from "./Posts/Posts"
-import {addPostActionCreator, updateNewPostActionCreator} from "../../../Redux/profileReducer";
+import {addPostActionCreator, deleteAllPosts, updateNewPostActionCreator} from "../../../Redux/profileReducer";
+import MyPosts from "./MyPosts";
+import {connect} from "react-redux";
 
-const MyPosts = (props) => {
+/*const MyPostsContainer = () => {
 
-    let getNewElement = React.createRef();
-
-    let addPost = () =>{
-        props.dispatch(addPostActionCreator());
-    }
-
-    let onPostChange =()=>{
-        let text = getNewElement.current.value;
-        props.dispatch(updateNewPostActionCreator(text));
-    };
-    let posts = props.data.posts.map(p=><Posts name={p.name}
-                                         message={p.message}/>).reverse();
     return (
-        <div className={s.wPosts}>
-            Create post:
-            <div>
-                <textarea onChange={onPostChange} ref={getNewElement} value={props.data.postText} onKeyPress={
-                    event => {
-                    if (event.key === "Enter") {
-                        addPost()
-                        event.preventDefault();
-                    }
-                    }}/> <br/>
-                <button onClick={addPost}>Add post</button>
-            </div>
-            <div className={s.nPosts}>
-                New posts:
-                {posts}
-            </div>
-        </div>
+        <Consumer>
+            {(store) => {
+                let state = store.getState().profileData;
+                let onAddPost = () => {
+                    store.dispatch(addPostActionCreator());
+                }
+
+                let onPostChange = (text) => {
+                    store.dispatch(updateNewPostActionCreator(text));
+                };
+
+                return (
+                    <MyPosts onAddPost={onAddPost}
+                             onPostChange={onPostChange}
+                             posts={state.posts}
+                             value={state.postText}/>
+                )
+            }
+
+            }
+        </Consumer>
+
+
     );
+}*/
+
+let mapStateToProps = (state) => {
+    return {
+        posts: state.profileData.posts,
+        value: state.profileData.postText,
+        profile:state.profileData.profile
+    }
 }
-export default MyPosts;
+
+let mapDispatchToProps = (dispatch) => {
+    return {
+        onAddPost:()=>{dispatch(addPostActionCreator());},
+        onPostChange:(text)=>{dispatch(updateNewPostActionCreator(text));},
+        onDeletePosts:()=>{dispatch(deleteAllPosts())}
+    }
+}
+/*Берутся объекты из функций и делаются объектами props*/
+
+
+const MyPostContainer = connect(mapStateToProps,mapDispatchToProps)(MyPosts);
+export default MyPostContainer;

@@ -1,49 +1,56 @@
 import React from "react";
-import s from "./Dialogs.module.css";
-import {BrowserRouter, NavLink} from "react-router-dom";
-import Dialog from "./Dialog/Dialog";
-import Message from "./Message/Message";
 import {addMessageActionCreator, updateNewMessageActionCreator} from "../../Redux/dialogsReducer";
+import Dialogs from "./Dialogs";
+import {connect} from "react-redux";
 
 
-const Dialogs = (props) => {
-    let getNewElement = React.createRef();
-
-    let sendMessage = () => {
-        props.dispatch(addMessageActionCreator());
-    }
-
-    let onMessageChange = () => {
-        let text = getNewElement.current.value;
-        props.dispatch(updateNewMessageActionCreator(text));
-    };
-
-
-    let messages = props.data.messages.map(m => <Message text={m.message} />);
-
+/*const DialogsContainer = () => {
     return (
-        <BrowserRouter>
-            <div className={s.dialogs}>
-                <div className={s.dialogsItems}>
-                    {props.data.names.map(item => (<Dialog name={item.name} id={item.id}/>))}
-                </div>
-                <div className={s.messages}>
-                    {messages}
+        <Consumer>
+            {store => {
+                let state = store.getState().messageData;
 
-                </div>
-                <div className={s.send}>
-                    <textarea onChange={onMessageChange} ref={getNewElement} value={props.data.messageText}
-                              onKeyPress={event => {
-                                  if (event.key === "Enter") {
-                                      sendMessage()
-                                      event.preventDefault();
-                                  }
-                              }}/> <br/>
-                    <button onClick={sendMessage}>Send</button>
-                </div>
-            </div>
-        </BrowserRouter>
+                let onSendMessage = () => {
+                    store.dispatch(addMessageActionCreator());
+                }
+
+                let onMessageChange = (text) => {
+                    store.dispatch(updateNewMessageActionCreator(text));
+                };
+
+
+                return (<Dialogs onSendMessage={onSendMessage}
+                                 onMessageChange={onMessageChange}
+                                 value={state.messageText}
+                                 names={state.names}
+                                 messages={state.messages}/>
+                )
+            }
+            }
+        </Consumer>
+
     )
-};
+};*/
 
-export default Dialogs;
+let mapStateToProps = (state)=>{
+    return{
+        value:state.messageData.messageText,
+        names:state.messageData.names,
+        messages:state.messageData.messages
+    }
+}
+
+let mapDispatchToProps = (dispatch) =>{
+    return{
+        onSendMessage:()=>{
+            dispatch(addMessageActionCreator())
+        },
+        onMessageChange:(text)=>{
+            dispatch(updateNewMessageActionCreator(text));
+        }
+    }
+}
+
+let DialogsContainer = connect(mapStateToProps,mapDispatchToProps)(Dialogs);
+
+export default DialogsContainer;

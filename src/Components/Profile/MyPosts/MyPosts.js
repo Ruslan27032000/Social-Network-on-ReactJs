@@ -1,32 +1,46 @@
 import React from "react";
-import s from "./Posts.module.css";
+import s from "./MyPosts.module.css";
+import Posts from "./Posts/Posts"
 
-const Posts = () => {
+const MyPosts = (props) => {
+
+    let getNewElement = React.createRef();
+
+    let posts = props.posts.map(p => <Posts profile={props.profile} name={p.name}
+                                                 message={p.message}/>).reverse();
+
+    let addPost = () => {
+        props.onAddPost();
+    }
+
+    let deletePosts = ()=>{
+        props.onDeletePosts();
+    }
+
+    let postChange = () => {
+        let text = getNewElement.current.value;
+        props.onPostChange(text);
+    };
+
     return (
-        <div className={s.profile}>
-            <div className={s.img}><img
-                src="https://www.wisemoneyisrael.com/wp-content/uploads/2015/05/Industry-1000x100.jpg"
-                alt=""/>
+        <div className={s.wPosts}>
+            Create post:
+            <div>
+                <textarea onChange={postChange} ref={getNewElement} value={props.value} onKeyPress={
+                    event => {
+                        if (event.key === "Enter") {
+                            addPost()
+                            event.preventDefault();
+                        }
+                    }}/> <br/>
+                <button onClick={addPost}>Add post</button>
+                <button onClick={deletePosts}>Delete Posts</button>
             </div>
-            <div className="">
-                ava + descr
-            </div>
-            <div className="posts">
-                My posts
-                <div className="item">
-                    New posts
-                </div>
-                <div className="">
-                    <div>
-                        post 1
-                    </div>
-                    <div>
-                        post 2
-                    </div>
-                </div>
+            <div className={s.nPosts}>
+                New posts:
+                {posts}
             </div>
         </div>
     );
 }
-
-export default Posts;
+export default MyPosts;
